@@ -2,12 +2,6 @@ import requests
 import json
 import config
 
-def parseTerms(terms):
-
-    print(terms)
-
-
-API_KEY = 'Ta7LL6tQ7R28M66t4euBYPwK4O3GW5LBaoa6Vdbk'
 BASE_URL = 'https://api.nal.usda.gov/ndb/search/?format=json&q=&sort=n&max=25&offset=0&api_key={0}'.format(config.api_key)
 
 searchTerm = input("Enter the food you want to search for: ").split()
