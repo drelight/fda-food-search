@@ -18,28 +18,34 @@ def userSetup():
         print("Please enter valid input")
         userSetup()
 
+def getURL():
 
-#searchTerm = input("Enter the food you want to search for: ").split()
-#maxResults = input("What are the maximum number of results you would like: ")
-searchTerm = 'Ground Beef'.split()
-maxResults = 20
-if len(searchTerm) > 1:
-    searchTerm = '+'.join(searchTerm)
-    searchURL = 'https://api.nal.usda.gov/ndb/search/?format=json&q={0}&sort=n&max={1}&offset=0&api_key={2}'.format(searchTerm, maxResults, config.api_key)
+    searchTerm = input("Enter the food you want to search for: ").split()
+    maxResults = input("What are the maximum number of results you would like: ")
+
+    if len(searchTerm) > 1:
+        searchTerm = '+'.join(searchTerm)
+        searchURL = 'https://api.nal.usda.gov/ndb/search/?format=json&q={0}&sort=n&max={1}&offset=0&api_key={2}'.format(searchTerm, maxResults, config.api_key)
+        
+    else:
+         searchURL = 'https://api.nal.usda.gov/ndb/search/?format=json&q={0}&sort=n&max={1}&offset=0&api_key={2}'.format(searchTerm[0], maxResults, config.api_key)
     
-else:
-    searchURL = 'https://api.nal.usda.gov/ndb/search/?format=json&q={0}&sort=n&max={1}&offset=0&api_key={2}'.format(searchTerm[0], maxResults, config.api_key)
+    return searchURL
+
+def parseResults(url):
+    response = requests.get(url)
+    data = json.loads(response.text)
+    data = data['list']['item']
+    return data
     
-response = requests.get(searchURL)
+def displaySearch(data):
+    for index, item in enumerate(data):
+        print('{0}) {1}'.format(index+1,item['name']))
 
-data = json.loads(response.text)
+def main():    
+    userSetup()
+    url = getURL()
+    data = parseResults(url)
+    displaySearch(data)
 
-data = data['list']['item']
-
-for index, item in enumerate(data):
-    print('{0}) {1}'.format(index+1,item['name']))
-
-    
-userSetup()
-
-
+main()

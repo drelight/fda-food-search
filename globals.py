@@ -1,0 +1,1 @@
+HEADERS = ['Date', 'Food Name', 'Serving Size', 'Calories', 'Fat', 'Protein', 'Carbohydrates']
