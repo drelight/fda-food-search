@@ -2,8 +2,8 @@ import requests
 import json
 import config
 import csv
+from globals import HEADERS
 
-HEADERS = ['Date', 'Food Name', 'Serving Size', 'Calories', 'Fat', 'Protein', 'Carbohydrates']
 
 def userSetup():
     name = input("What is your name: ")
@@ -37,7 +37,7 @@ def parseResults(url):
     data = json.loads(response.text)
     data = data['list']['item']
     return data
-    
+
 def displaySearch(data):
     for index, item in enumerate(data):
         print('{0}) {1}'.format(index+1,item['name']))
