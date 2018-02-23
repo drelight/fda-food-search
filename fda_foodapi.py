@@ -7,7 +7,7 @@ from globals import HEADERS
 
 def userSetup():
     name = input("What is your name: ")
-    response = int(input("Is this your first time using the program input 1 for yes or 2 for no: "))
+    response = int(input("Is this your first time using the program input 1 for no or 2 for yes: "))
     if response is 1:
         return
     elif response is 2:
@@ -42,10 +42,17 @@ def displaySearch(data):
     for index, item in enumerate(data):
         print('{0}) {1}'.format(index+1,item['name']))
 
+def getNurtrition(data):
+    selection = int(input('Enter the food you would like the nutrition content for: '))
+    index = selection - 1
+    itemId = data[index]['ndbno']
+    print(itemId)    
+
 def main():    
     userSetup()
     url = getURL()
     data = parseResults(url)
     displaySearch(data)
+    getNurtrition(data)
 
 main()
