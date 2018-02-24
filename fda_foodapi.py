@@ -1,7 +1,9 @@
 import requests
 import json
-import config
 import csv
+from datetime import date
+import config
+
 from globals import HEADERS
 from globals import NUTRIENT_IDS as nu
 
@@ -54,6 +56,18 @@ def getNutrition(data):
     return nutr_data
     
 def parseNutrition(nutr_data):
+    user_date = input("Enter the date for this entry in mm-dd-yyyy format or enter today: ")
+    #This breaks hopelessly if the user enters bad data, no idea why
+    try:
+        if user_date == 'today':
+            user_date = date.today().strftime('%m-%d-%Y')
+        else:
+            month, day, year = map(int, user_date.split('-'))
+            user_date = date(year, month, day).strftime('%m-%d-%Y')
+    except ValueError:
+        print('Enter a valid format')
+        parseNutrition(nutr_data)
+           
     nutrparse = nutr_data
     food_name = nutrparse['report']['foods'][0]['name']
     serving_size = nutrparse['report']['foods'][0]['measure']
@@ -72,8 +86,8 @@ def parseNutrition(nutr_data):
             fat = i['value']
         elif i['nutrient_id'] == '205':
             carbs = i['value']
-    keys = ['food_name', 'serving_size','calories','fiber','protein','sugars','fat','carbs']
-    values = [food_name,serving_size,calories,fiber,protein,sugars,fat,carbs]
+    keys = ['date','food_name', 'serving_size','calories','fiber','protein','sugars','fat','carbs']
+    values = [user_date,food_name,serving_size,calories,fiber,protein,sugars,fat,carbs]
     nutr_dict = dict(zip(keys,values))
     return nutr_dict
 
@@ -88,11 +102,7 @@ def test():
     return nutr_data
 
 def main():    
-    userSetup()
-    search_url = foodSearch()
-    search_data = searchResults(search_url)
-    displaySearch(search_data)
-    nutr_data = getNutrition(search_data)
+    nutr_data = test()
     results = parseNutrition(nutr_data)
     print(results)
 
