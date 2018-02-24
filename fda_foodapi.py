@@ -110,7 +110,7 @@ def test(item):
     return nutr_data
 
 def main_test():
-    filename = 'Patrick_data.csv'
+    filename = 'test_data.csv'
     with open('testdata.txt','r') as testdata:
         item_list = testdata.read()
         item_list = item_list.split('\n')
