@@ -2,3 +2,4 @@
 2) Write those variables to the csv
 3) solve the date problem for the date column of the csv mainly people should be able to select today, or 
     input a custom date in the past
+4) Figure out how to give users custom choice of what nutrients they want returned
