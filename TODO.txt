@@ -1,0 +1,4 @@
+1) Finish the nutrition parse function so it breaks each nutrient out into it's own variable
+2) Write those variables to the csv
+3) solve the date problem for the date column of the csv mainly people should be able to select today, or 
+    input a custom date in the past

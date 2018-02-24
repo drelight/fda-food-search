@@ -2,3 +2,7 @@ config.py
 __pycache__
 .vscode
 *.csv
+handlers.py
+scratch.py
+food/
+data.json

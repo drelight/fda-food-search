@@ -3,6 +3,7 @@ import json
 import config
 import csv
 from globals import HEADERS
+from globals import NUTRIENT_IDS as nu
 
 
 def userSetup():
@@ -46,13 +47,27 @@ def getNurtrition(data):
     selection = int(input('Enter the food you would like the nutrition content for: '))
     index = selection - 1
     itemId = data[index]['ndbno']
-    print(itemId)    
+    nutrURL = ('https://api.nal.usda.gov/ndb/nutrients/?format=json&api_key={0}&nutrients='
+                '{1}&nutrients={2}&nutrients={3}&nutrients={4}&nutrients={5}&nutrients={6}&ndbno={7}'.format(config.api_key, nu['kcal'], 
+                nu['fat'], nu['protein'], nu['carbs'], nu['fiber'], nu['sugars'], itemId))
+    response = requests.get(nutrURL)
+    nutr_data = json.loads(response.text)
+    return nutr_data
+    
+def parseNutrition(nutr_data):
+    nutrparse = nutr_data
+    food_name = nutrparse['report']['foods'][0]['name']
+    serving_size = nutrparse['report']['foods'][0]['measure']
+    nutrient_list = nutrparse['report']['foods'][0]['nutrients']
+    return food_name, serving_size, nutrient_list
+
 
 def main():    
     userSetup()
     url = getURL()
     data = parseResults(url)
     displaySearch(data)
-    getNurtrition(data)
+    nutr_data = getNurtrition(data)
+    print(parseNutrition(nutr_data))
 
 main()
